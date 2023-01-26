@@ -1,5 +1,3 @@
-
-
 run_stats <- function() {
   return(
     tabItem(

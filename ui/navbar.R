@@ -1,4 +1,3 @@
-
 run_navbar <- function() {
   return(
     gentelellaNavbar(

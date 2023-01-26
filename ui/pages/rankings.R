@@ -1,5 +1,3 @@
-
-
 run_rankings <- function() {
   return(
     tabItem(
@@ -19,7 +17,8 @@ run_rankings <- function() {
         column(
           width = 8,
           align = "center",
-          plotOutput("distPlot")
+          tableOutput(outputId = "rankingstable")
+          # DT::dataTableOutput(outputId = "rankingstable")
         )
       )
     )

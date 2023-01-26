@@ -4,6 +4,7 @@ library(gentelellaShiny) ## to install, run `devtools::install_github("MarkEdmon
 library(ggplot2)
 library(DT)
 library(shinyWidgets)
+library(dplyr)
 
 # Loading the UI
 source("ui/run_ui.R")
@@ -14,6 +15,6 @@ source("server/run_server.R")
 
 # Run application
 shinyApp(
-	ui = ui,
-	server = server
+  ui = ui,
+  server = server
 )

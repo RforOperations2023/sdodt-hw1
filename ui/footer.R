@@ -1,6 +1,8 @@
 run_footer <- function() {
-  gentelellaFooter(
-    leftText = "Sebastian Dodt",
-    rightText = "2023"
+  return(
+    gentelellaFooter(
+      leftText = "Sebastian Dodt",
+      rightText = "2023"
+    )
   )
 }
