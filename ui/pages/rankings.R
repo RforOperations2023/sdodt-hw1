@@ -13,9 +13,11 @@ run_rankings <- function() {
             max = 1000,
             value = 500
           )
-        ),
+        )),
+      hr(),
+      fluidRow(
         column(
-          width = 8,
+          width = 12,
           align = "center",
           tableOutput(outputId = "rankingstable")
           # DT::dataTableOutput(outputId = "rankingstable")

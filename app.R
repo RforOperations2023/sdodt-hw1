@@ -5,6 +5,7 @@ library(ggplot2)
 library(DT)
 library(shinyWidgets)
 library(dplyr)
+library(stringr)
 
 # Loading the UI
 source("ui/run_ui.R")

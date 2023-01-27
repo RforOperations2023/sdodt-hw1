@@ -2,15 +2,39 @@
 generate_rankings <- function() {
   load("data/encounter.Rdata")
   load("data/loitering.Rdata")
-
-  all_meetings <- rbind(
-    encounter,
-    loitering)
-  all_meetings <- all_meetings %>%
+  all_meetings <- rbind(encounter, loitering)
+  reefer_info <- all_meetings %>%
+    count(vessel.mmsi, vessel.name, vessel.flag, sort = TRUE) %>%
     group_by(vessel.mmsi) %>%
-    summarise(total_meetings = n_distinct(id))
+    summarise(Reefer.Name = vessel.name[1], Reefer.Flag = vessel.flag[1])
 
-  return(
-    all_meetings
-  )
+  meeting_info <- all_meetings %>%
+    mutate(encounter = ifelse(type == "encounter", 1, 0),
+      loitering = ifelse(type == "loitering", 1, 0)) %>%
+    group_by(vessel.mmsi) %>%
+    summarise(
+      n_encounter = sum(encounter),
+      n_loitering = sum(loitering),
+      avg_distance = mean(distance_from_shore_m) / 1852) %>%
+    mutate(
+      total_meetings = n_encounter + n_loitering
+    )
+
+  table_data <- reefer_info %>%
+    left_join(meeting_info, by = "vessel.mmsi") %>%
+    arrange(-total_meetings) %>%
+    mutate(Reefer.Name = str_to_title(Reefer.Name)) %>%
+    rename(
+      "MMSI" = vessel.mmsi,
+      "Vessel Name" = Reefer.Name,
+      "Flag" = Reefer.Flag,
+      "Number of tracked meetings" = n_encounter,
+      "Number of dark meetings" = n_loitering,
+      "Distance from shore (nm)" = avg_distance,
+      "Total number of meetings" = total_meetings
+    )
+  
+
+
+  return(table_data)
 }

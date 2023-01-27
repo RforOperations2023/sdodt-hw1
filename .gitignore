@@ -41,3 +41,5 @@ vignettes/*.pdf
 # Added
 *.Rproj
 *.DS_Store
+*.csv
+*port.Rdata

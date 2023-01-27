@@ -9,7 +9,9 @@ source("server/pages/rankings.R")
 
 server <- function(input, output, session) {
   output$rankingstable <- renderTable(
-      expr = generate_rankings()[1:10, 1:2]
+      expr = generate_rankings(),
+      digits = 0,
+      na = ""
       # data = ,
       # options = list(pageLength = 10),
       # rownames = FALSE
