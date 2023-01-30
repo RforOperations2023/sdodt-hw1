@@ -9,6 +9,9 @@ run_main_panel <- function() {
   stats_tab <- run_stats()
   return(
     gentelellaBody(
+      tags$style('.container-fluid {
+                  background-color: #FFFFFF;
+      }'),
       tabItems(
         rankings_tab,
         stats_tab

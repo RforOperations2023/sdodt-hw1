@@ -1,9 +1,6 @@
 
-generate_rankings <- function(input) {
+generate_rankings <- function(input, session) {
   reactive({
-  # load("data/encounter.Rdata")
-  # load("data/loitering.Rdata")
-  # load("data/combined.Rdata")
   all_meetings <- rbind(encounter, loitering) %>%
     mutate(start = as.Date(start)) %>%
     filter(between(
@@ -53,5 +50,5 @@ generate_rankings <- function(input) {
       "Total number of meetings" = total_meetings
     )
 
-  # return(table_data)
+  table_data
 })}

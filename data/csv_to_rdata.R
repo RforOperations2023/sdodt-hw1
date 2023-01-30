@@ -21,5 +21,9 @@ save(loitering_small, file = "data/loitering_small.Rdata")
 
 choices <- sort(unique(rbind(encounter, loitering)$vessel.flag))
 saveRDS(choices, file = "data/flags.RDS")
-print(choices)
+
+ship_names <- sort(unique(rbind(encounter, loitering)$vessel.name))
+ship_mmsi <- sort(unique(rbind(encounter, loitering)$vessel.mmsi))
+save(list = c("ship_names", "ship_mmsi"), file = "data/ship_ids.Rdata")
+# table(all_meetings$vessel.destination_port.country)
 
