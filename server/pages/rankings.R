@@ -1,15 +1,26 @@
 
 generate_rankings <- function(input) {
   reactive({
-  load("data/encounter.Rdata")
-  load("data/loitering.Rdata")
+  # load("data/encounter.Rdata")
+  # load("data/loitering.Rdata")
+  # load("data/combined.Rdata")
   all_meetings <- rbind(encounter, loitering) %>%
     mutate(start = as.Date(start)) %>%
     filter(between(
         start,
         as.Date(paste0(input$year_range[1], "-01-01")),
         as.Date(paste0(input$year_range[2], "-12-31"))
+    )) %>%
+    filter(between(
+        distance_from_shore_m,
+        input$distance[1] * 1852,
+        input$distance[2] * 1852
     ))
+
+  if ("flags" %in% names(input) & !is.null(input$flags)) {
+    all_meetings <- all_meetings %>%
+      filter(vessel.flag %in% input$flags)
+  }
 
   reefer_info <- all_meetings %>%
     count(vessel.mmsi, vessel.name, vessel.flag, sort = TRUE) %>%
@@ -23,7 +34,7 @@ generate_rankings <- function(input) {
     summarise(
       n_encounter = sum(encounter),
       n_loitering = sum(loitering),
-      avg_distance = mean(distance_from_shore_m) / 1852) %>%
+      avg_distance = median(distance_from_shore_m) / 1852) %>%
     mutate(
       total_meetings = n_encounter + n_loitering
     )
@@ -38,7 +49,7 @@ generate_rankings <- function(input) {
       "Flag" = Reefer.Flag,
       "Number of tracked meetings" = n_encounter,
       "Number of dark meetings" = n_loitering,
-      "Distance from shore (nm)" = avg_distance,
+      "Median distance from shore (nm)" = avg_distance,
       "Total number of meetings" = total_meetings
     )
 

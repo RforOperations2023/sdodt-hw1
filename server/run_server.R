@@ -12,7 +12,7 @@ server <- function(input, output, session) {
   table_data <- reactive({
       req(input$year_range)
       rankingstable_data <- generate_rankings(input)
-      data <- head(rankingstable_data(),10)
+      data <- rankingstable_data() %>% head(10)
   })
   output$rankingstable <- renderTable(
     expr = table_data(),
@@ -20,8 +20,14 @@ server <- function(input, output, session) {
     na = ""
   )
 
+
   observeEvent(input$all_ranking, {
     rankingstable_data <- generate_rankings(input)
+    updateSelectInput(
+      session = session,
+      inputId = "flags",
+      label = "Support Vessel Flags",
+      choices = rankingstable_data()$Flag)
     output$rankingstable <- renderTable(
       expr = rankingstable_data(),
       digits = 0,
@@ -29,6 +35,13 @@ server <- function(input, output, session) {
     )
   })
 
+  # observe({
+  #   rankingstable_data <- generate_rankings(input)
+  #         updateSelectInput(session, "flags",
+  #                           label = "Support Vessel Flags",
+  #                           choices = sort(unique(rankingstable_data()$Flag)),
+  #                           selected = input$flags)
+  #     })
 
 
   output$distPlot2 <- renderPlot({

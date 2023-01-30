@@ -6,6 +6,7 @@ library(DT)
 library(shinyWidgets)
 library(dplyr)
 library(stringr)
+load("data/combined.Rdata")
 
 # Loading the UI
 source("ui/run_ui.R")

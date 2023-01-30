@@ -23,9 +23,12 @@ table_data <- reefer_info %>%
   arrange(-total_meetings)
 
 all_meetings %>%
-  mutate(start=as.Date(start)) %>%
+  mutate(start = as.Date(start)) %>%
   filter(between(
         start,
         as.Date(paste0(2022, "-01-01")),
         as.Date(paste0(2022, "-12-31"))
     ))
+  
+
+max(all_meetings$distance_from_shore_m/1852, na.rm=TRUE)
