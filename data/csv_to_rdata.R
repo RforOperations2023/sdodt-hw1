@@ -11,7 +11,15 @@ save(encounter, file = "data/encounter.Rdata")
 save(loitering, file = "data/loitering.Rdata")
 save(port, file = "data/port.Rdata")
 
+save(list = c("encounter", "loitering"), file = "data/combined.Rdata")
+
 encounter_small <- encounter[1:100, ]
 loitering_small <- loitering[1:100, ]
 save(encounter_small, file = "data/encounter_small.Rdata")
 save(loitering_small, file = "data/loitering_small.Rdata")
+
+
+choices <- sort(unique(rbind(encounter, loitering)$vessel.flag))
+saveRDS(choices, file = "data/flags.RDS")
+print(choices)
+
