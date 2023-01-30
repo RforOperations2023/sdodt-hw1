@@ -21,3 +21,11 @@ meeting_info <- all_meetings %>%
 table_data <- reefer_info %>%
   left_join(meeting_info, by = "vessel.mmsi") %>%
   arrange(-total_meetings)
+
+all_meetings %>%
+  mutate(start=as.Date(start)) %>%
+  filter(between(
+        start,
+        as.Date(paste0(2022, "-01-01")),
+        as.Date(paste0(2022, "-12-31"))
+    ))

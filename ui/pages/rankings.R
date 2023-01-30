@@ -7,11 +7,14 @@ run_rankings <- function() {
           width = 4,
           align = "center",
           sliderInput(
-            "obs",
-            "Number of observations:",
-            min = 0,
-            max = 1000,
-            value = 500
+            "year_range",
+            "Years",
+            min = 2012,
+            max = 2022,
+            value = c(2012, 2022),
+            sep = "",
+            round = TRUE,
+            ticks = FALSE
           )
         )),
       hr(),
@@ -20,7 +23,13 @@ run_rankings <- function() {
           width = 12,
           align = "center",
           tableOutput(outputId = "rankingstable")
-          # DT::dataTableOutput(outputId = "rankingstable")
+        )
+      ),
+      fluidRow(
+        column(
+          width = 12,
+          align = "center",
+          actionButton("all_ranking", "Show all")
         )
       )
     )

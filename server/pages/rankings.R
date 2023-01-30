@@ -1,8 +1,16 @@
 
-generate_rankings <- function() {
+generate_rankings <- function(input) {
+  reactive({
   load("data/encounter.Rdata")
   load("data/loitering.Rdata")
-  all_meetings <- rbind(encounter, loitering)
+  all_meetings <- rbind(encounter, loitering) %>%
+    mutate(start = as.Date(start)) %>%
+    filter(between(
+        start,
+        as.Date(paste0(input$year_range[1], "-01-01")),
+        as.Date(paste0(input$year_range[2], "-12-31"))
+    ))
+
   reefer_info <- all_meetings %>%
     count(vessel.mmsi, vessel.name, vessel.flag, sort = TRUE) %>%
     group_by(vessel.mmsi) %>%
@@ -33,8 +41,6 @@ generate_rankings <- function() {
       "Distance from shore (nm)" = avg_distance,
       "Total number of meetings" = total_meetings
     )
-  
 
-
-  return(table_data)
-}
+  # return(table_data)
+})}

@@ -8,18 +8,28 @@
 source("server/pages/rankings.R")
 
 server <- function(input, output, session) {
+
+  table_data <- reactive({
+      req(input$year_range)
+      rankingstable_data <- generate_rankings(input)
+      data <- head(rankingstable_data(),10)
+  })
   output$rankingstable <- renderTable(
-      expr = generate_rankings(),
+    expr = table_data(),
+    digits = 0,
+    na = ""
+  )
+
+  observeEvent(input$all_ranking, {
+    rankingstable_data <- generate_rankings(input)
+    output$rankingstable <- renderTable(
+      expr = rankingstable_data(),
       digits = 0,
       na = ""
-      # data = ,
-      # options = list(pageLength = 10),
-      # rownames = FALSE
     )
+  })
 
-  # output$distPlot <- renderPlot({
-  # 	hist(rnorm(input$obs))
-  # })
+
 
   output$distPlot2 <- renderPlot({
     hist(rnorm(input$obs))
