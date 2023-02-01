@@ -15,17 +15,9 @@ server <- function(input, output, session) {
 
   table_data <- reactive({
     req(input$year_range)
-    rankingstable_data <- generate_rankings(input, session, encounter, loitering)
+    rankingstable_data <- generate_rankings(
+      input, session, encounter, loitering)
     data <- rankingstable_data() %>% head(10)
-
-    ## this is not working
-    updateSelectInput(
-      session = session,
-      "vessel.mmsi",
-      label = "Support Vessel MMSI number",
-      choices = ship_mmsi,
-      selected = 416778000) #(data %>% pull(MMSI))[1])
-    data
   })
   output$rankingstable <- renderTable(
     expr = table_data(),
@@ -52,16 +44,10 @@ server <- function(input, output, session) {
 
   observeEvent(input$vessel_mmsi, {
     mmsi_data <- dist_plot(input, session, encounter, loitering)()
+    description <- description_text(input, session, mmsi_data)()
 
-    vessel_name <- mmsi_data %>%
-      count(vessel.name) %>%
-      slice(which.max(n)) %>%
-      pull(vessel.name)
-
-    vessel_flag <- mmsi_data %>%
-      count(vessel.flag) %>%
-      slice(which.max(n)) %>%
-      pull(vessel.flag)
+    vessel_name <- description$vessel_name
+    vessel_flag <- description$vessel_flag
 
     output$vessel_name <- renderText(vessel_name)
     output$vessel_flag <- renderUI(
@@ -69,7 +55,6 @@ server <- function(input, output, session) {
         country = countrycode(vessel_flag, "iso3c", "iso2c")
       )
     )
-
 
     output$distPlot2 <- renderPlot({
       ggplot(
@@ -124,22 +109,60 @@ server <- function(input, output, session) {
         )
     })
 
-    output$portplot <- renderPlot({
-      ggplot(
-        data = mmsi_data,
-        aes(x = vessel.destination_port.country, fill = Meeting_Type)
-        ) +
-        geom_histogram(
-          # binwidth = 25,
+    output$portplotcountry <- renderPlot({
+      if (input$city_or_country == "Country") {
+        p <- ggplot(
+          data = mmsi_data,
+          aes(x = port_country, fill = Meeting_Type)
+          ) +
+          xlab("Country where vessel headed after meetings")
+      } else {
+        p <- ggplot(
+          data = mmsi_data,
+          aes(x = vessel.destination_port.name, fill = Meeting_Type)
+          ) +
+          xlab("Port where vessel headed after meetings")
+      }
+        p + geom_histogram(
           boundary = 0,
           position = "stack",
           stat = "count"
         ) +
-        # xlim(0, max(800, max(mmsi_data$distance_from_shore))) +
-        # xlab("Distance from shore during meeting") +
-        # ylab("Frequency") +
-        ggtitle("Port Country")
+        ylab("Sum of meetings before heading to the port") +
+        ggtitle("Port Country") +
+        theme(axis.text.x = element_text(angle = 90))
     })
+
+
+    output$description <- renderUI({
+      HTML(
+        paste0("<br>",
+        str_to_title(description$vessel_name),
+        " is a reefer vessel flagged to ", description$vessel_country, 
+        " and most frequently visits ports in ", description$vessel_port,
+        ". <br><br>",
+        "Its median distance from shore during ",
+        "meetings with fishing vessels is ",
+        round(description$vessel_dist, 0), " nautical miles.<br><br>"
+        # "It spent ", round(description$vessel_loi_hours,0),
+        # " hours in dark meetings. <br><br>",
+        # "In its tracked meetings, ",
+        # "it most frequently met fishing vessels flagged to ",
+        # description$vessel_enc_flag,
+        # " who go to port in ", description$vessel_enc_port, ".<br><br>"
+      ))
+    })
+
+    output$download_data <- downloadHandler(
+      filename = function() {
+        paste("data-", mmsi_data, ".csv", sep = "")
+      },
+      content = function(file) {
+        write.csv(mmsi_data, file)
+      }
+    )
+
   })
 
-  }
+}
+

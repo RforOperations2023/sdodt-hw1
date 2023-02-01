@@ -4,26 +4,16 @@ run_stats <- function() {
     tabItem(
       tabName = "stats",
       fluidRow(
-        # column(
-        #     width = 4,
-        #     align = "center",
-        #     selectInput(
-        #       "vessel_name",
-        #       "Support Vessel Flags",
-        #       choices = ship_names,
-        #       multiple = FALSE,
-        #       selectize = TRUE
-        #     )),
         column(
             width = 4,
-            align = "center",
+            align = "left",
             fluidRow(
               column(
-                width = 10,
+                width = 9,
                 align = "left",
                 h1(textOutput("vessel_name"))),
               column(
-                width = 2,
+                width = 3,
                 align = "right",
                 htmlOutput("vessel_flag"))
             ),
@@ -35,13 +25,25 @@ run_stats <- function() {
               selectize = TRUE,
               selected = 371717000
             ),
+            uiOutput("description"),
+            downloadButton("download_data", "Download")
             ),
         column(
           width = 8,
           align = "center",
           plotOutput("distPlot2"),
+          hr(),
           plotOutput("timePlot"),
-          plotOutput("portplot")
+          hr(),
+          selectInput(
+            "city_or_country",
+            "Plot by",
+            choices = c("Country", "City"),
+            multiple = FALSE,
+            selectize = TRUE,
+            selected = "Country"
+          ),
+          plotOutput("portplotcountry")
         )
       # ),
       # fluidRow(
