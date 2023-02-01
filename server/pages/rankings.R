@@ -1,5 +1,5 @@
 
-generate_rankings <- function(input, session) {
+generate_rankings <- function(input, session, encounter, loitering) {
   reactive({
   all_meetings <- rbind(encounter, loitering) %>%
     mutate(start = as.Date(start)) %>%

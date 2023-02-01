@@ -1,12 +1,16 @@
 options(shiny.jquery.version=1) ## to get the tabs on the left side working. See https://github.com/MarkEdmondson1234/gentelellaShiny/issues/14
 library(shiny)
 library(gentelellaShiny) ## to install, run `devtools::install_github("MarkEdmondson1234/gentelellaShiny")`
+library(shinyflags) ## to install, run `devtools::install_github("tutuchan/shinyflags")`
 library(ggplot2)
 library(DT)
 library(shinyWidgets)
 library(dplyr)
 library(stringr)
-load("data/combined.Rdata")
+library(tidyquant)
+library(zoo)
+# library(tidyverse)
+library(countrycode)
 
 # Loading the UI
 source("ui/run_ui.R")
