@@ -28,7 +28,8 @@ server <- function(input, output, session) {
 
 
   observeEvent(input$all_ranking, {
-    rankingstable_data <- generate_rankings(input, session)
+    rankingstable_data <- generate_rankings(
+      input, session, encounter, loitering)
     updateSelectInput(
       session = session,
       "vessel.mmsi",
@@ -155,7 +156,7 @@ server <- function(input, output, session) {
 
     output$download_data <- downloadHandler(
       filename = function() {
-        paste("data-", mmsi_data, ".csv", sep = "")
+        paste("data-", input$vessel_mmsi, ".csv", sep = "")
       },
       content = function(file) {
         write.csv(mmsi_data, file)
