@@ -2,12 +2,12 @@ run_sidebar <- function() {
   return(
     gentelellaSidebar(
       site_title = shiny::HTML(
-        paste(shiny::icon("ship"),"Sebastian Dodt")
+        paste(shiny::icon("ship"),
+        "Sebastian Dodt")
       ),
       url = NULL,
       fixed = FALSE,
       footer = NULL,
-      # uiOutput("profile"),
       sidebarDate(),
       sidebarMenu(
         sidebarItem(
@@ -26,4 +26,3 @@ run_sidebar <- function() {
     )
   )
 }
-

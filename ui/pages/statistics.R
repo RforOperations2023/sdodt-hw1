@@ -8,15 +8,21 @@ run_stats <- function() {
             width = 4,
             align = "left",
             fluidRow(
+
+              # Title
               column(
                 width = 9,
                 align = "left",
                 h1(textOutput("vessel_name"))),
+
+              # Flag
               column(
                 width = 3,
                 align = "right",
                 htmlOutput("vessel_flag"))
             ),
+
+            # MMSI selection dropdown
             selectInput(
               "vessel_mmsi",
               "Support Vessel MMSI number",
@@ -25,16 +31,26 @@ run_stats <- function() {
               selectize = TRUE,
               selected = 371717000
             ),
+
+            # Description
             uiOutput("description"),
+
+            # Download Button
             downloadButton("download_data", "Download")
             ),
         column(
           width = 8,
           align = "center",
-          plotOutput("distPlot2"),
+
+          # Plot 1
+          plotOutput("distplot"),
           hr(),
-          plotOutput("timePlot"),
+
+          # Plot 2
+          plotOutput("timeplot"),
           hr(),
+
+          # Plot 3
           selectInput(
             "city_or_country",
             "Plot by",
@@ -45,12 +61,6 @@ run_stats <- function() {
           ),
           plotOutput("portplotcountry")
         )
-      # ),
-      # fluidRow(
-      #   column(
-      #     width = 8,
-      #     align = "center",
-      #     plotOutput("timePlot"))
       )
     )
   )

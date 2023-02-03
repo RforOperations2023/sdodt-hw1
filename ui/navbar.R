@@ -1,16 +1,16 @@
 run_navbar <- function() {
   return(
     gentelellaNavbar(
-      navbarItems = notif(
-        id = "menunotif",
-        icon = icon("calendar"),
-        status = "primary",
-        expanded = FALSE,
-        notifItem(
-          title = "Sebastian Dodt",
-          date = "1 Feb",
-          "Published Version 1.0"
-        )#,
+      # navbarItems = notif(
+      #   id = "menunotif",
+      #   icon = icon("calendar"),
+      #   status = "primary",
+      #   expanded = FALSE,
+      #   notifItem(
+      #     title = "Sebastian Dodt",
+      #     date = "1 Feb",
+      #     "Published Version 1.0"
+      #   )#,
         # notifItem(
         #   title = "Sebastian Dodt",
         #   date = "2 Feb",
@@ -25,7 +25,7 @@ run_navbar <- function() {
         #     for movie makers. They were where..."
         #   )
         # })
-      )
+      # )
     )
   )
 }
