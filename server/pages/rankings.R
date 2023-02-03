@@ -1,10 +1,11 @@
 table_data <- function(input, session, encounter, loitering) {
   reactive({
-    req(input$year_range)
     rankingstable_data <- generate_rankings(
       input, session, encounter, loitering)
     data <- rankingstable_data() %>%
       head(10)
+
+    return(data)
   })
 }
 

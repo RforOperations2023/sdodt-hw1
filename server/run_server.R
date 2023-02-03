@@ -12,8 +12,12 @@ server <- function(input, output, session) {
   # *Rankings Page*
   # generate the table for the ranking when application is loaded
   # and update reactively when input parameters change
+  ranking_data <- reactive({
+    table_data(input, session, encounter, loitering)()
+  })
+
   output$rankingstable <- renderTable(
-    expr = table_data(input, session, encounter, loitering)(),
+    expr = ranking_data(),
     digits = 0,
     na = ""
   )
