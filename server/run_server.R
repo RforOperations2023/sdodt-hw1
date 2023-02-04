@@ -145,4 +145,11 @@ server <- function(input, output, session) {
       }
     )
   })
+
+  observeEvent(input$city_or_country, {
+    mmsi_data <- vessel_data(input, session, encounter, loitering)()
+    output$portplotcountry <- renderPlot({
+      port_plot(input, mmsi_data)()
+    })
+  })
 }

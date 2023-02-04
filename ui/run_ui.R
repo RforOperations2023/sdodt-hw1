@@ -9,7 +9,7 @@ run_ui <- function() {
   titlepanel <- run_title_panel()
   mainpanel <- run_main_panel()
   # sidebar <- run_sidebar()
-  navbar <- run_navbar()
+  # navbar <- run_navbar()
   footer <- run_footer()
   return(
     navbarPage(
