@@ -12,11 +12,6 @@ server <- function(input, output, session) {
   # *Rankings Page*
   # generate the table for the ranking when application is loaded
   # and update reactively when input parameters change
-  # ranking_data <- reactive({
-    
-  #   #table_data(input, session, encounter, loitering)()
-  # })
-
   generate_rankings2 <- reactive({
     all_meetings <- rbind(encounter, loitering) %>%
 
@@ -84,16 +79,6 @@ server <- function(input, output, session) {
       options = list(pageLength = 10),
       rownames = FALSE)
   )
-
-  # # expand table when "Show More" button is pressed
-  # observeEvent(input$all_ranking, {
-  #   output$rankingstable <- renderTable(
-  #     expr = generate_rankings(
-  #       input, session, encounter, loitering)(),
-  #     digits = 0,
-  #     na = ""
-  #   )
-  # })
 
   # *Statistics page*
   observeEvent(input$vessel_mmsi, {

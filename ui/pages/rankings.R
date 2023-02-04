@@ -62,15 +62,6 @@ run_rankings <- function() {
           DT::dataTableOutput(outputId = "rankingstable")
         )
       )
-
-      # # "Show all" button
-      # fluidRow(
-      #   column(
-      #     width = 12,
-      #     align = "center",
-      #     actionButton("all_ranking", "Show all")
-      #   )
-      # )
     )
   )
 }
