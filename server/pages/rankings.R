@@ -11,7 +11,7 @@ table_data <- function(input, session, encounter, loitering) {
 
 generate_rankings <- function(input, session, encounter, loitering) {
   reactive({
-  
+
   # join tracked and dark meetings
   all_meetings <- rbind(encounter, loitering) %>%
 

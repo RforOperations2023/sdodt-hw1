@@ -2,23 +2,12 @@ run_rankings <- function() {
 
   # importing selection options for the dropdown
   flag_choices <- readRDS("data/flags.RDS")
-  subtitle_text <- readRDS("data/subtitle.RDS")
 
   return(
-    tabItem(
-      tabName = "ranking",
-      fluidRow(
-
-        # Title and subtile
-        column(
-          width = 6,
-          align = "left",
-          h1("Reefer Tracking Portal"),
-          p(subtitle_text)  # imported from RDS to load quicker
-        ),
-        column(width = 6)
-      ),
-      hr(),
+    shiny::tabPanel(
+      tabName = "Ranking",
+      title = "Ranking",
+      br(),
       fluidRow(
 
         # Year range slider
@@ -70,18 +59,18 @@ run_rankings <- function() {
         column(
           width = 12,
           align = "center",
-          tableOutput(outputId = "rankingstable")
-        )
-      ),
-
-      # "Show all" button
-      fluidRow(
-        column(
-          width = 12,
-          align = "center",
-          actionButton("all_ranking", "Show all")
+          DT::dataTableOutput(outputId = "rankingstable")
         )
       )
+
+      # # "Show all" button
+      # fluidRow(
+      #   column(
+      #     width = 12,
+      #     align = "center",
+      #     actionButton("all_ranking", "Show all")
+      #   )
+      # )
     )
   )
 }

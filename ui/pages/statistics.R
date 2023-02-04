@@ -1,9 +1,11 @@
 run_stats <- function() {
   load("data/ship_ids.Rdata")
   return(
-    tabItem(
+    shiny::tabPanel(
       tabName = "stats",
+      title = "Statistics",
       fluidRow(
+        br(),
         column(
             width = 4,
             align = "left",

@@ -1,8 +1,14 @@
 run_footer <- function() {
   return(
-    gentelellaFooter(
-      leftText = "Sebastian Dodt",
-      rightText = "2023"
+    fluidRow(
+      hr(),
+      column(
+        width = 12,
+        align = "center",
+        p("Sebastian Dodt, 2023")
+      )
+      # leftText = "Sebastian Dodt",
+      # rightText = "2023"
     )
   )
 }
